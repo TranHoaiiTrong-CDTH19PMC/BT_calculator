@@ -26,6 +26,68 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool darkMode = false;
+  String output = "0";
+  String _output = "0";
+  double num1 = 0;
+  double num2 = 0;
+  String operand = "";
+
+  buttonPressed(String buttonText) {
+    if (buttonText == "AC") {
+      _output = "0";
+      num1 = 0;
+      num2 = 0;
+      operand = "";
+    } else if (buttonText == "+" ||
+        buttonText == "-" ||
+        buttonText == "/" ||
+        buttonText == "x") {
+      num1 = double.parse(output);
+
+      operand = buttonText;
+
+      _output = "0";
+    } else if (buttonText == ".") {
+      if (_output.contains(".")) {
+        print("Already conatains a decimals");
+        return;
+      } else {
+        _output = _output + buttonText;
+      }
+    } else if (buttonText == "=") {
+      num2 = double.parse(output);
+
+      if (operand == "+") {
+        _output = (num1 + num2).toString();
+      }
+      if (operand == "-") {
+        _output = (num1 - num2).toString();
+      }
+      if (operand == "x") {
+        _output = (num1 * num2).toString();
+      }
+      if (operand == "/") {
+        _output = (num1 / num2).toString();
+      }
+
+      num1 = 0;
+      num2 = 0;
+      operand = "";
+    } else if (buttonText == "C") {
+      {
+        if ((double.parse(_output)) != 0) {
+          _output = _output.substring(0, _output.length - 1);
+        }
+      }
+    } else {
+      _output = _output + buttonText;
+    }
+    print(_output);
+
+    setState(() {
+      output = double.parse(_output).toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        '',
+                        output,
                         style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
@@ -70,19 +132,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buttonRounded(title: "√x"),
                       _buttonRounded(
                           title: 'AC',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: '%'),
+                      _buttonRounded(
+                          title: '%',
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "1/x",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
                       _buttonRounded(
                           title: '/',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: "1/x"),
-                      _buttonRounded(title: 'π'),
-                      _buttonRounded(title: "log"),
+                      _buttonRounded(
+                          title: "x^3",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "tan",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
@@ -95,8 +168,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: 'x',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: "x^2"),
-                      _buttonRounded(title: "x^3"),
+                      _buttonRounded(
+                          title: "x^2",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "√x",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
@@ -109,8 +188,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: '-',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: '+/-'),
-                      _buttonRounded(title: "cos"),
+                      _buttonRounded(
+                          title: '+/-',
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "cos",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
@@ -123,8 +208,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: '+',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: "x^y"),
-                      _buttonRounded(title: "sin"),
+                      _buttonRounded(
+                          title: "x^y",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "sin",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
@@ -137,11 +228,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       _buttonRounded(title: '0'),
                       _buttonRounded(title: '.'),
                       _buttonRounded(
+                          title: 'π',
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "x!",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
+                          title: "log",
+                          textColor:
+                              darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(
                           title: '=',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(title: "x!"),
-                      _buttonRounded(title: "tan"),
                     ],
                   )
                 ]),
@@ -171,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: padding * 2,
             child: new TextButton(
                 style: TextButton.styleFrom(side: BorderSide(width: 0)),
-                onPressed: () {},
+                onPressed: () => buttonPressed(title),
                 child: title != null
                     ? Text(
                         '$title',
