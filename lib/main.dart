@@ -1,3 +1,260 @@
+
+/*
+import 'package:flutter/material.dart';
+import 'dart:math';
+//import 'package:math_expressions/math_expressions.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Flutter Calculator',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new MyHomePage(title: 'Flutter Calculator'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String output = "0";
+  String _output = "0";
+  double num1 = 0;
+  double num2 = 0;
+  String operand = "";
+  
+  buttonPressed(String buttonText) {
+    if (buttonText == "AC") {
+      _output = "0";
+      num1 = 0;
+      num2 = 0;
+      operand = "";
+    } else if (buttonText == "+" ||
+        buttonText == "-" ||
+        buttonText == "/" ||
+        buttonText == "x"||
+        buttonText=="x^y")
+         {
+      num1 = double.parse(output);
+
+      operand = buttonText;
+
+      _output = "0";
+    } else if (buttonText == ".") {
+      if (_output.contains(".")) {
+        print("Already conatains a decimals");
+        return;
+      } else {
+        _output = _output + buttonText;
+      }
+    } else if (buttonText == "=") {
+      num2 = double.parse(output);
+
+      if (operand == "+") {
+        _output = (num1 + num2).toString();
+      }
+      if (operand == "-") {
+        _output = (num1 - num2).toString();
+      }
+      if (operand == "x") {
+        _output = (num1 * num2).toString();
+      }
+      if (operand == "/") {
+        _output = (num1 / num2).toString();
+      }
+      if (operand == "x^y") {
+      double tong=num1;
+        for(int i=1;i<num2;i++)
+        {
+          tong=tong*num1;
+        }
+        _output = (tong).toString();
+      }
+      num1 = 0;
+      num2 = 0;
+      operand = "";
+    } else if (buttonText == "⌫") {
+      {
+        if((double.parse(_output))!=0)
+        {
+          _output = _output.substring(0, _output.length - 1);
+        }
+      }
+    }else
+    if (buttonText == "%") {
+      
+      _output = ( double.parse(output) / 100).toString();
+      }else if(buttonText=="+/-")
+      {
+        _output = (double.parse(output)*-1).toString();
+      }
+      else if(buttonText == "1/x")
+      {
+         _output = (1/ double.parse(output) ).toString();
+      } else if(buttonText == "x^2")
+      {
+         _output = (double.parse(output) *double.parse(output)).toString();
+      }
+       else if(buttonText == "x^3")
+      {
+         _output = (double.parse(output)*double.parse(output)* double.parse(output) ).toString();
+      }
+      else if(buttonText == "x!")
+      {
+        try {
+                 int tong=1;
+              for(int i=1;i<=int.parse(output);i++)
+              {
+                tong*=i;
+              }
+              _output = (tong).toString();
+                  }
+            catch(e)
+            {
+              _output="Lỗi";
+            }
+ 
+      }
+      else if(buttonText == "π")
+      {
+        if(double.parse(output)==0)
+        {
+             _output = (3.14159265358979323846).toString();
+        }
+        else{
+          _output = (3.14159265358979323846*double.parse(output)).toString();
+        }
+      }
+     else if(buttonText == "√x")
+      {
+        
+        _output = sqrt((double.parse(output))).toString();
+      }
+       else if(buttonText == "cos")
+      {
+        _output = cos((double.parse(output))).toString();
+      }
+       else if(buttonText == "sin")
+      {
+        
+        _output = sin((double.parse(output))).toString();
+      }
+       else if(buttonText == "tan")
+      {
+        _output = tan((double.parse(output))).toString();
+      }
+      else if(buttonText == "log")
+      {
+        _output = log((double.parse(output))).toString();        
+      }
+
+       else {
+      _output = _output + buttonText;
+    }
+
+    print(_output);
+
+    setState(() {
+      output = double.parse(_output).toString();
+    });
+  }
+
+  Widget _buttonRounded(String buttonText) {
+    return new Expanded(
+      child: new OutlineButton(
+        padding: new EdgeInsets.all(24.0),
+        child: new Text(
+          buttonText,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () => buttonPressed(buttonText),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: new AppBar(
+          title: new Text(widget.title),
+        ),
+        body: new Container(
+            child: new Column(
+          children: <Widget>[
+            new Container(
+                alignment: Alignment.centerRight,
+                padding:
+                    new EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+                child: new Text(output,
+                    style: new TextStyle(
+                      fontSize: 48.0,
+                      fontWeight: FontWeight.bold,
+                    ))),
+            new Expanded(
+              child: new Divider(),
+            ),
+            new Column(children: [
+              new Row(children: [
+                _buttonRounded("AC"),
+                _buttonRounded("⌫"),
+                _buttonRounded("%"),
+                _buttonRounded("/"),
+                 _buttonRounded("1/x"),
+                  _buttonRounded("π"), 
+                   _buttonRounded("log"),
+              ]),
+              new Row(children: [
+                _buttonRounded("7"),
+                _buttonRounded("8"),
+                _buttonRounded("9"),
+                _buttonRounded("x"),
+                _buttonRounded("x^2"),
+                  _buttonRounded("√x")
+
+              ]),
+              new Row(children: [
+                _buttonRounded("4"),
+                _buttonRounded("5"),
+                _buttonRounded("6"),
+                _buttonRounded("-"),
+                _buttonRounded("x^3"),
+                 _buttonRounded("cos"),
+
+
+              ]),
+              new Row(children: [
+                _buttonRounded("1"),
+                _buttonRounded("2"),
+                _buttonRounded("3"),
+                _buttonRounded("+"),
+                _buttonRounded("x^y"),
+                 _buttonRounded("sin"),
+              ]),
+              new Row(children: [
+                _buttonRounded("+/-"),
+                _buttonRounded("0"),
+                _buttonRounded("."),
+                _buttonRounded("="),
+                _buttonRounded("x!"),
+                 _buttonRounded("tan"),
+              ])
+            ])
+          ],
+        )));
+  }
+}*/
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -41,7 +298,9 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (buttonText == "+" ||
         buttonText == "-" ||
         buttonText == "/" ||
-        buttonText == "x") {
+        buttonText == "x"||
+        buttonText=="x^y")
+         {
       num1 = double.parse(output);
 
       operand = buttonText;
@@ -69,17 +328,91 @@ class _MyHomePageState extends State<MyHomePage> {
       if (operand == "/") {
         _output = (num1 / num2).toString();
       }
-
+      if (operand == "x^y") {
+      double tong=num1;
+        for(int i=1;i<num2;i++)
+        {
+          tong=tong*num1;
+        }
+        _output = (tong).toString();
+      }
       num1 = 0;
       num2 = 0;
       operand = "";
     } else if (buttonText == "C") {
       {
-        if ((double.parse(_output)) != 0) {
+        if((double.parse(_output))!=0)
+        {
           _output = _output.substring(0, _output.length - 1);
         }
       }
-    } else {
+    }else
+    if (buttonText == "%") {
+      
+      _output = ( double.parse(output) / 100).toString();
+      }else if(buttonText=="+/-")
+      {
+        _output = (double.parse(output)*-1).toString();
+      }
+      else if(buttonText == "1/x")
+      {
+         _output = (1/ double.parse(output) ).toString();
+      } else if(buttonText == "x^2")
+      {
+         _output = (double.parse(output) *double.parse(output)).toString();
+      }
+      else if(buttonText == "x!")
+      {
+        try {
+                 int tong=1;
+              for(int i=1;i<=int.parse(output);i++)
+              {
+                tong*=i;
+              }
+              _output = (tong).toString();
+                  }
+            catch(e)
+            {
+              _output="Lỗi";
+            }
+ 
+      }
+      else if(buttonText == "π")
+      {
+        if(double.parse(output)==0)
+        {
+             _output = (3.14159265358979323846).toString();
+        }
+        else{
+          _output = (3.14159265358979323846*double.parse(output)).toString();
+        }
+      }
+     else if(buttonText == "√x")
+      {
+        
+        _output = sqrt((double.parse(output))).toString();
+      }
+       else if(buttonText == "cos")
+      {
+        _output = cos((double.parse(output))).toString();
+      }
+       else if(buttonText == "sin")
+      {
+        
+        _output = sin((double.parse(output))).toString();
+      }
+       else if(buttonText == "tan")
+      {
+        _output = tan((double.parse(output))).toString();
+      }
+      else if(buttonText == "log")
+      {
+        _output = log((double.parse(output))).toString();        
+      }else if(buttonText == "x^3")
+      {
+         _output = (double.parse(output)*double.parse(output)* double.parse(output) ).toString();
+      }
+       else {
       _output = _output + buttonText;
     }
     print(_output);
@@ -132,33 +465,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      
                       _buttonRounded(
                           title: 'AC',
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: '%',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "1/x",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
+                      _buttonRounded(title: '%',
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                      
+                             _buttonRounded(title:"1/x",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                             _buttonRounded(
                           title: '/',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "x^3",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "tan",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                      _buttonRounded(title:"x^3",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                 _buttonRounded(title:"tan",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+
                     ],
                   ),
-                  Row(
+                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buttonRounded(title: '7'),
@@ -166,16 +493,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       _buttonRounded(title: '9'),
                       _buttonRounded(
                           title: 'x',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "x^2",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "√x",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                           _buttonRounded(title:"x^2",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                  _buttonRounded(title:"√x",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+
                     ],
                   ),
                   Row(
@@ -186,16 +509,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       _buttonRounded(title: '6'),
                       _buttonRounded(
                           title: '-',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: '+/-',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "cos",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                    _buttonRounded(title: '+/-',
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                 _buttonRounded(title:"cos",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
@@ -206,43 +524,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       _buttonRounded(title: '3'),
                       _buttonRounded(
                           title: '+',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "x^y",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "sin",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                          _buttonRounded(title:"x^y",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                 _buttonRounded(title:"sin",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buttonRounded(
-                          title: 'C',
+                          title: 'C', 
                           textColor:
                               darkMode ? Colors.green : Colors.redAccent),
                       _buttonRounded(title: '0'),
                       _buttonRounded(title: '.'),
-                      _buttonRounded(
-                          title: 'π',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "x!",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
-                          title: "log",
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
-                      _buttonRounded(
+                      _buttonRounded(title: 'π',
+                          textColor: darkMode ? Colors.green : Colors.redAccent), 
+                           _buttonRounded(title:"x!",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                                        _buttonRounded(title:"log",
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
+                 _buttonRounded(
                           title: '=',
-                          textColor:
-                              darkMode ? Colors.green : Colors.redAccent),
+                          textColor: darkMode ? Colors.green : Colors.redAccent),
                     ],
                   )
                 ]),

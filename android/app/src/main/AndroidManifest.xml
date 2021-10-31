@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.khoa">
+    package="com.example.video_tuan4">
    <application
-        android:label="khoa"
+        android:label="video_tuan4"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
